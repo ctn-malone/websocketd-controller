@@ -11,7 +11,7 @@ export default () => {
         // file does not exist
         p = new Process(cmdLine, {env:{'PATH_INFO':'missingFile'}});
         state = await p.run();
-        tester.assertEq(state.exitCode, expectedExitCode, `Exit code should be ${expectedExitCode} when task file does not exist`);
+        tester.assertEq(state.exitCode, expectedExitCode, `exit code should be ${expectedExitCode} when task file does not exist`);
 
         // invalid json file
         p = new Process(cmdLine, {env:{'PATH_INFO':'invalidJson'}});
