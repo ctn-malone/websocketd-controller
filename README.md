@@ -2,7 +2,10 @@ Wrapper to execute command-line interface programs described by json files. It i
 
 Requires [QuickJS](https://github.com/ctn-malone/quickjs-cross-compiler/releases/tag/2020-11-08_3%2Bext-lib-0.1.0) for compilation
 
-It is **meant to run** under *Linux* (although it **might work** on *Unix* systems)
+<u>NB</u>
+
+* it is **meant to run** under *Linux* (although it **might work** on *Unix* systems)
+* it does not offer any support for processing *stdin* (ie: it can only send *stdout* output over websocket)
 
 # Rational
 
