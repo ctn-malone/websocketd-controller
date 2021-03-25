@@ -1,0 +1,6 @@
+{
+    "cmdLine":"data/test1.sh",
+    "oneShot":false,
+    "useShell":false,
+    "shell":"/bin/bash"
+}

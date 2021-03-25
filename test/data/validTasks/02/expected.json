@@ -1,0 +1,19 @@
+{
+    "cmdLine":[
+        "data/test1.sh"
+    ],
+    "options":{
+        "newSession":true,
+        "usePath":false,
+        "useShell":true,
+        "lineBuffered":false,
+        "redirectStderr":true,
+        "forwardStderr":true,
+        "env":{
+            
+        },
+        "replaceEnv":false,
+        "shell":"/bin/bash",
+        "timeout":30
+    }
+}

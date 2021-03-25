@@ -1,0 +1,11 @@
+{
+    "cmdLine":"data/test1.sh",
+    "oneShot":false,
+    "usePath":false,
+    "useShell":true,
+    "shell":"/bin/bash",
+    "lineBuffered":false,
+    "redirectStderr":true,
+    "forwardStderr":true,
+    "timeout":30
+}

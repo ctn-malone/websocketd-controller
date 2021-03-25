@@ -1,0 +1,7 @@
+{
+    "cmdLine":"data/test1.sh %VAR1%",
+    "oneShot":false,
+    "env": {
+        "multi_var":"%VAR1% %VAR2%"
+    }
+}

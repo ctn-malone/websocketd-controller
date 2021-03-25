@@ -1,0 +1,20 @@
+{
+    "cmdLine":[
+        "data/test1.sh",
+        "var1"
+    ],
+    "options":{
+        "newSession":true,
+        "usePath":true,
+        "useShell":false,
+        "lineBuffered":true,
+        "redirectStderr":false,
+        "forwardStderr":false,
+        "env":{
+            "QS_param1":"11",
+            "QS_param2":"22",
+            "multi_var":"var1 var2"
+        },
+        "replaceEnv":false
+    }
+}
