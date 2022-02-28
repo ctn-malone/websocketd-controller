@@ -41,7 +41,7 @@ Usage: PATH_INFO=/xxxx websocketd-controller [-h|--help] [-c|--ctx-dir] [-s|--sa
     -c, --ctx-dir (*):       directory containing json context files
     -s, --same-origin:       enforce same origin policy
                              If set, ws connection can only be opened from a page
-                             running on same server. Requires below environnement
+                             running on same server. Requires below environment
                              variables (set by websocketd)
                                - SERVER_NAME
                                - HTTP_ORIGIN
