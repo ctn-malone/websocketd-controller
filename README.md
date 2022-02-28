@@ -35,9 +35,9 @@ A file named {task_id}.json is expected to exist in context directory
 
 https://github.com/ctn-malone/websocketd-controller
 
-Version 0.1.0
+Version 0.2.0
 
-Usage: PATH_INFO=/xxxx  [-h|--help] [-c|--ctx-dir] [-s|--same-origin] [--strict] [--dry-run]
+Usage: PATH_INFO=/xxxx websocketd-controller [-h|--help] [-c|--ctx-dir] [-s|--same-origin] [--strict] [--dry-run]
     -c, --ctx-dir (*):       directory containing json context files
     -s, --same-origin:       enforce same origin policy
                              If set, ws connection can only be opened from a page
