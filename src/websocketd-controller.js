@@ -143,7 +143,7 @@ import { Process } from 'ext/process.js';
 
  */
 
-const VERSION = '0.1.0';
+const VERSION = '0.2.0';
 
 /*
     List of optional properties in json task
