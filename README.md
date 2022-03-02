@@ -22,6 +22,19 @@ qjsc.sh -o websocketd-controller websocketd-controller.js
 
 This will produce a **static binary** named `websocketd-controller`
 
+<u>NB</u> : when using vanilla [QuickJS](https://bellard.org/quickjs/), a few extra steps are necessary to setup [qjs-ext-lib](https://github.com/ctn-malone/qjs-ext-lib)
+
+* create a symlink named `ext` under `src` directory, pointing to the `src` directory of [qjs-ext-lib](https://github.com/ctn-malone/qjs-ext-lib) repository
+
+```
+.
+├── CHANGELOG.md
+├── README.md
+└── src
+    ├── ext -> ../../qjs-ext-lib/src
+    └── websocketd-controller.js
+```
+
 # Usage
 
 ```
@@ -35,7 +48,7 @@ A file named {task_id}.json is expected to exist in context directory
 
 https://github.com/ctn-malone/websocketd-controller
 
-Version 0.2.0
+Version 0.2.1
 
 Usage: PATH_INFO=/xxxx websocketd-controller [-h|--help] [-c|--ctx-dir] [-s|--same-origin] [--strict] [--dry-run]
     -c, --ctx-dir (*):       directory containing json context files
@@ -136,6 +149,7 @@ Following properties can be defined in a json file
 * forwardStderr (`boolean`) : if `true`, an `stderr` event will be emitted whenever content is received on *stderr* from task
 * timeout (`integer`) : if defined, task will be killed after this number of seconds if it is still running
 * oneShot (`boolean`) : if `true`, task can be executed only once (ie: json file will be deleted afterwards)
+* forwardStdin (`boolean`) : if `true`, input received from client will be forwarded to process (default = `true`)
 * env (`object`) : dictionary of environment variables to define for the new task
 
 Following environment variables will be available to child process

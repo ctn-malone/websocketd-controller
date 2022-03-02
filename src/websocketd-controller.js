@@ -19,6 +19,7 @@ import { Process } from 'ext/process.js';
         "forwardStderr":boolean,
         "timeout":integer,
         "oneShot":boolean,
+        "forwardStdin": boolean,
         "env":object
     }
 
@@ -33,6 +34,7 @@ import { Process } from 'ext/process.js';
     - forwardStderr : if {true}, stderr content will be forwarded to client (default = {false})
     - timeout : if defined, process will be killed after this number of seconds if it is still running
     - oneShot : if {true}, json file will be automatically removed after being read (default = {true})
+    - forwardStdin : if {true}, input received from client will be forwarded to process (default = {true})
     - env : used to define extra  environment variables for child process
             Any %xx% will be replaced with the value of environment variable xx
 
@@ -143,7 +145,7 @@ import { Process } from 'ext/process.js';
 
  */
 
-const VERSION = '0.2.0';
+const VERSION = '0.2.1';
 
 /*
     List of optional properties in json task
@@ -158,6 +160,7 @@ const TASK_OPTIONAL_PROPERTIES = {
     forwardStderr:{type:'boolean', default:false},
     timeout:{type:'integer', min:1},
     oneShot:{type:'boolean', default:true},
+    forwardStdin:{type:'boolean', default:true},
     env:{type:'object', default:{}}
 };
 
@@ -640,6 +643,11 @@ const onStderr = (e) => {
         std.err.puts(e.data);
     }
     std.err.flush();
+}
+
+// close stdin
+if (false === ctx.forwardStdin) {
+    std.in.close();
 }
 
 // create & run process
