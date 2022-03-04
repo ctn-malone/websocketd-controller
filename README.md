@@ -48,7 +48,7 @@ A file named {task_id}.json is expected to exist in context directory
 
 https://github.com/ctn-malone/websocketd-controller
 
-Version 0.2.1
+Version 0.3.0
 
 Usage: PATH_INFO=/xxxx websocketd-controller [-h|--help] [-c|--ctx-dir] [-s|--same-origin] [--strict] [--dry-run]
     -c, --ctx-dir (*):       directory containing json context files
@@ -150,6 +150,7 @@ Following properties can be defined in a json file
 * timeout (`integer`) : if defined, task will be killed after this number of seconds if it is still running
 * oneShot (`boolean`) : if `true`, task can be executed only once (ie: json file will be deleted afterwards)
 * forwardStdin (`boolean`) : if `true`, input received from client will be forwarded to process (default = `true`)
+* passwords (`string|string[]`) : used to protect access using one password or a list of passwords
 * env (`object`) : dictionary of environment variables to define for the new task
 
 Following environment variables will be available to child process
@@ -157,6 +158,21 @@ Following environment variables will be available to child process
 * all environment variables listed in https://github.com/joewalnes/websocketd/wiki/Environment-variables
 * all variables defined in `env` object
 * query string will be automatically parsed and a query parameter `xx` will be available as environment variable `QS_xx`
+* any `%xx%` in `cmdLine` or `env` value will be replaced with the value of environment variable `xx` (see examples below)
+
+<u>NB</u> : `password` is a special query parameter used to perform access control (it will never be passed to child process)
+
+<u>Examples using `%xx%`</u>
+
+```
+{
+    "cmdLine":"ping.sh -i %QS_ipaddr%",
+    "timeout":3,
+    "env":{
+        "DEBUG":"%QS_debug"
+    }
+}
+```
 
 # Events
 

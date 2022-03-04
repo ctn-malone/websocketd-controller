@@ -1,0 +1,6 @@
+{
+    "cmdLine":"data/test2.sh",
+    "oneShot":false,
+    "forwardStdin":true,
+    "timeout":2
+}

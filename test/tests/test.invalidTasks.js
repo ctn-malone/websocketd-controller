@@ -34,27 +34,35 @@ export default () => {
             {tid:'02', stderr:"'cmdLine'"},
             {tid:'03', stderr:"'cmdLine'"},
             // unknown property
-            {tid:'04', stderr:"'unknown'"},            
+            {tid:'04', stderr:"'unknown'"},
             // invalid usePath property
-            {tid:'05', stderr:"'usePath'"},            
+            {tid:'05', stderr:"'usePath'"},
             // invalid useShell property
-            {tid:'06', stderr:"'useShell'"},            
+            {tid:'06', stderr:"'useShell'"},
             // invalid shell property
-            {tid:'07', stderr:"'shell'"},            
+            {tid:'07', stderr:"'shell'"},
             // invalid lineBuffered property
-            {tid:'08', stderr:"'lineBuffered'"},            
+            {tid:'08', stderr:"'lineBuffered'"},
             // invalid cwd property
-            {tid:'09', stderr:"'cwd'"},            
+            {tid:'09', stderr:"'cwd'"},
             // invalid redirectStderr property
-            {tid:'10', stderr:"'redirectStderr'"},            
+            {tid:'10', stderr:"'redirectStderr'"},
             // invalid forwardStderr property
-            {tid:'11', stderr:"'forwardStderr'"},            
+            {tid:'11', stderr:"'forwardStderr'"},
             // invalid timeout property
-            {tid:'12', stderr:"'timeout'"},            
+            {tid:'12', stderr:"'timeout'"},
             // invalid timeout property
-            {tid:'13', stderr:"'oneShot'"},            
+            {tid:'13', stderr:"'oneShot'"},
             // invalid env property
-            {tid:'14', stderr:"'env'"},            
+            {tid:'14', stderr:"'env'"},
+            // invalid forwardStdin property
+            {tid:'15', stderr:"'forwardStdin'"},
+            // invalid passwords property
+            {tid:'16', stderr:"'passwords'"},
+            {tid:'17', stderr:"'passwords'"},
+            {tid:'18', stderr:"'passwords'"},
+            {tid:'19', stderr:"'passwords'"},
+            {tid:'20', stderr:"'passwords'"},
         ];
 
         for (let i = 0; i < tasks.length; ++i) {

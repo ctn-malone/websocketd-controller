@@ -1,0 +1,5 @@
+{
+    "cmdLine":"data/test3.sh",
+    "oneShot":false,
+    "passwords":["_password", "1234"]
+}

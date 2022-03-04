@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.3.0]
+* feat: possibility to password protect a file
+* tests: add unit test for `forwardStdin` & `passwords` options
+  
 ## [0.2.1]
 * feat: possibility to disable `stdin` forwarding
 

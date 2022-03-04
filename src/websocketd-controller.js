@@ -4,6 +4,7 @@ import * as os from 'os';
 import arg from 'ext/arg.js';
 import * as path from 'ext/path.js';
 import { Process } from 'ext/process.js';
+import { version } from 'ext/version.js';
 
 /*
     Execute a task defined in a json file with a format such as below
@@ -20,6 +21,7 @@ import { Process } from 'ext/process.js';
         "timeout":integer,
         "oneShot":boolean,
         "forwardStdin": boolean,
+        "passwords":string|string[],
         "env":object
     }
 
@@ -35,10 +37,12 @@ import { Process } from 'ext/process.js';
     - timeout : if defined, process will be killed after this number of seconds if it is still running
     - oneShot : if {true}, json file will be automatically removed after being read (default = {true})
     - forwardStdin : if {true}, input received from client will be forwarded to process (default = {true})
-    - env : used to define extra  environment variables for child process
+    - passwords : used to protect access using one password or a list of passwords
+    - env : used to define extra environment variables for child process
             Any %xx% will be replaced with the value of environment variable xx
 
     NB: query string will be automatically parsed. A query parameter xx can be referenced as %QS_xx% (wherever an environment variable can be used)
+        "_password" is a special query parameter used to perform access control (it will never be passed to child process)
 
     Examples
 
@@ -62,8 +66,10 @@ import { Process } from 'ext/process.js';
     - task not found or invalid json : 3
     - invalid task definition : 4
     - same origin policy mismatch : 5
+    - wrong password : 6
     - child process exited successfully : 0
     - child process exited with an error or was killed : 1
+    - wrong qls-ext-lib version : 255
 
     Environment variables
     =====================
@@ -145,7 +151,13 @@ import { Process } from 'ext/process.js';
 
  */
 
-const VERSION = '0.2.1';
+const VERSION = '0.3.0';
+
+const MIN_LIB_VERSION = '0.4.1';
+if (version.lt(MIN_LIB_VERSION, version.VERSION)) {
+    std.err.printf(`Minimum qjs-ext-lib version is '${MIN_LIB_VERSION}'\n`);
+    std.exit(255);
+}
 
 /*
     List of optional properties in json task
@@ -314,6 +326,7 @@ if (undefined === taskId) {
 /*
     Parse query string
  */
+let password = '';
 let queryParams = {};
 const qsVar = std.getenv('QUERY_STRING');
 if (undefined !== qsVar && '' !== qsVar) {
@@ -326,10 +339,17 @@ if (undefined !== qsVar && '' !== qsVar) {
         }
         const key = str.substring(0, pos);
         const value = decodeURIComponent(str.substring(pos + 1));
+        if ('_password' === key) {
+            password = value;
+            return;            
+        }
         const varName = `QS_${key}`;
         queryParams[varName] = value;
     });
 }
+// unset _password environment variables
+std.unsetenv('_password');
+std.unsetenv('QS__password');
 
 /**
  * Retrieve the value of a variable from 
@@ -447,6 +467,41 @@ const getCtx = () => {
             }
         }
     }
+    if (undefined !== ctx.passwords) {
+        // single password
+        if ('string' == typeof ctx.passwords) {
+            if ('' === ctx.passwords) {
+                const msg = `Invalid value found for property 'passwords' in file '${filename}' (string cannot be empty)`;
+                const err = new Error(msg);
+                throw err;
+            }
+            ctx.passwords = [ctx.passwords];
+        }
+        else if (Array.isArray(ctx.passwords)) {
+            if (0 == ctx.passwords.length) {
+                const msg = `Invalid value found for property 'passwords' in file '${filename}' (array cannot be empty)`;
+                const err = new Error(msg);
+                throw err;
+            }
+            for (let i = 0; i < ctx.passwords.length; ++i) {
+                if ('string' !== typeof ctx.passwords[i]) {
+                    const msg = `Invalid value found at position ${i} for property 'passwords' in file '${filename}' (should be a string)`;
+                    const err = new Error(msg);
+                    throw err;
+                }
+                if ('' === ctx.passwords[i]) {
+                    const msg = `Invalid value found at position ${i} for property 'passwords' in file '${filename}' (string cannot be empty)`;
+                    const err = new Error(msg);
+                    throw err;
+                }
+            }
+        }
+        else {
+            const msg = `Invalid type found for property 'passwords' in file '${filename}' (should be a string|string[])`;
+            const err = new Error(msg);
+            throw err;
+        }
+    }
     if (missingCmdLine) {
         const msg = `Missing 'cmdLine' in file '${filename}'`;
         const err = new Error(msg);
@@ -467,7 +522,7 @@ const getCtx = () => {
     // check all optional tasks
     if (args['--strict']) {
         for (const [key, value] of Object.entries(ctx)) {
-            if ('cmdLine' == key) {
+            if ('cmdLine' == key || 'passwords' == key) {
                 continue;
             }
             // unknown property
@@ -556,6 +611,14 @@ catch (e) {
         exitCode = 3;
     }
     std.exit(exitCode);
+}
+
+// check password
+if (undefined !== ctx.passwords) {
+    if (!ctx.passwords.includes(password)) {
+        std.err.printf(`Password '${password}' is not valid for task in file '${taskId}.json'\n`);
+        std.exit(6);
+    }
 }
 
 // process options
