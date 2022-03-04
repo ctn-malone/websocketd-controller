@@ -1,7 +1,7 @@
 # Change Log
 
 ## [0.3.0]
-* feat: possibility to password protect a file
+* feat: possibility to password protect a task
 * tests: add unit test for `forwardStdin` & `passwords` options
   
 ## [0.2.1]

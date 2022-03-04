@@ -1,6 +1,6 @@
 Wrapper to execute command-line interface programs described by json files. It is meant to be run by [websocketd](https://github.com/joewalnes/websocketd)
 
-Requires [QuickJS](https://github.com/ctn-malone/quickjs-cross-compiler/releases/tag/2021-03-27_2%2Bext-lib-0.4.0) for compilation
+Requires [QuickJS](https://github.com/ctn-malone/quickjs-cross-compiler/releases/tag/2021-03-27_2%2Bext-lib-0.4.1) for compilation
 
 <u>NB</u>
 
